@@ -94,6 +94,41 @@ Extension | Description |
 
 ---
 
+### () => {} vs function() {}
+
+![regular to arrow function conversion](https://res.cloudinary.com/dlzuobe8h/image/upload/v1670868682/phase1/reg-to-arrow-function_bqrtqj.gif)
+
+- syntax {.fragment}
+- simplified vs fully featured {.fragment}
+- interchangeable for now (hoisting! 😅) {.fragment}
+- read more about [differences](https://dmitripavlutin.com/differences-between-arrow-and-regular-functions/) (or feel free to bookmark for later) {.fragment}
+
+![arrow function to reegular function conversion](https://res.cloudinary.com/dlzuobe8h/image/upload/v1670868681/phase1/arrow-to-reg-function_snfnkx.gif)
+
+---
+
+#### Scope & The Scope Chain
+![Scope and the Scope Chain](https://res.cloudinary.com/dlzuobe8h/image/upload/v1665447423/1_S9gu5XK8LBTSVddsGdBtGg_kq2mnh.png)
+
+[Awesome Blog post on Scope and the Scope Chain](https://medium.com/joonsikyang/scope-and-the-scope-chain-27216a853a4e)
+
+---
+
+### Callbacks and HOF
+
+![Callbacks pt1](./callbacks-pt-1.drawio.svg)
+
+<div style="font-size: 0.75em">
+
+#### Higher Order Functions
+
+- accept a function as a parameter
+- (and/or) return a function
+
+</div>
+
+---
+
 <div style="font-size: 0.75em">
 
 ### Let's Code!
@@ -103,37 +138,14 @@ Function | Parameters | Behavior
  helloWorld | none | returns "Hello, world!"
  formatPrice | price (float) | returns the price like so: "$2.99" 
  blurb | book (obj) | returns a string representation of the book with title author and price
- findHighestPricedBook | none | returns the book object that has the highest price
 
 </div>
-
----
-
-### Callbacks and Higher Order functions
-
-![Callbacks pt1](./callbacks-pt-1.drawio.svg)
 
 ---
 
 ### Callbacks and Iteration
 
 ![Callbacks pt2](./callbacks-pt-2.drawio.svg)
-
----
-
-### () => {} vs function() {}
-
-- syntax {.fragment}
-- simplified vs fully featured {.fragment}
-- interchangeable for now (hoisting! 😅) {.fragment}
-- read more about [differences](https://dmitripavlutin.com/differences-between-arrow-and-regular-functions/) (or feel free to bookmark for later) {.fragment}
-
----
-
-#### Scope & The Scope Chain
-![Scope and the Scope Chain](https://res.cloudinary.com/dlzuobe8h/image/upload/v1665447423/1_S9gu5XK8LBTSVddsGdBtGg_kq2mnh.png)
-
-[Awesome Blog post on Scope and the Scope Chain](https://medium.com/joonsikyang/scope-and-the-scope-chain-27216a853a4e)
 
 ---
 

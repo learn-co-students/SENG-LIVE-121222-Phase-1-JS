@@ -65,13 +65,17 @@ const inventory = [
   }
 ]
 
-// Function ideas:
+// ✅ Function ideas:
 /*
 - helloWorld
 - formatPrice(price)
-- findHighestPricedBook()
 - blurb(book)
 */
+
+// Start here!
+
+
+
 
 // 💡 Arrow functions vs regular functions
 
