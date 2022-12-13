@@ -46,6 +46,21 @@ header div h2 {
   height: 265px;
 }
 
+.list-li button {
+  width: 190px;
+  margin: 15px 5px 15px 5px;
+  border: none;
+  background-color: #fce043;
+  color: rgb(255, 255, 255);
+  padding: 3px;
+  font-size: large;
+  font-weight: bold;
+}
+
+button, [type="submit"] {
+  cursor: pointer;
+}
+
 footer {
   display: flex;
   flex-direction: column;

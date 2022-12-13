@@ -107,7 +107,7 @@ https://techcrunch.com/wp-content/uploads/2007/10/picture-242.png
   - `textContent =`
   - `append()`
   - `classList` for adding and removing classes from an element
-  - dot notation for editing properties (eg. `img.src = "img.url"`, or `div.class = "card"`)
+  - dot notation for editing properties (eg. `img.src = imageUrl`, or `div.className = "card"`)
 - Destroy 
   - `remove()`
 
