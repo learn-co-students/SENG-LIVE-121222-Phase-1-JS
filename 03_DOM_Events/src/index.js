@@ -1,5 +1,4 @@
 function formatPrice(price) {
-  // return `$${price.toFixed(2)}`;
   return '$' + Number.parseFloat(price).toFixed(2);
 }
 
@@ -48,7 +47,6 @@ function renderBook(book) {
   img.alt = `${book.title} cover`;
 
   const btn = document.createElement('button');
-
   btn.textContent = 'Delete';
 
   li.append(h3, pAuthor, pPrice, img, btn);

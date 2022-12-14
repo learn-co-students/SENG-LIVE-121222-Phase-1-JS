@@ -48,19 +48,33 @@ input {
 
 ---
 
+### The Setup
 <img 
   src="./event-handling-1.drawio.svg"  
   alt="Handling Events part 1 (setup)" 
   style="width: 85%" 
 />
 
----
+<div class="fragment"> 
+
+### The Payoff
 
 <img 
   src="./event-handling-2.drawio.svg"  
   alt="Handling Events part 2 (in action)" 
   style="width: 85%" 
-/>
+/> 
+
+</div> 
+
+---
+
+### In Practice
+
+- Identify event type
+- Identify event target
+- Add event listener for target and specify type (as first argument)
+- add logic to handle the event to event handler callback (as second argument)
 
 ---
 
