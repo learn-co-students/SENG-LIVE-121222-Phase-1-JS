@@ -118,14 +118,60 @@ bookForm.addEventListener('submit', (e) => {
   e.target.reset();
 });
 
+function renderError(message) {
+  const main = document.querySelector('main');
+  const errorDiv = document.createElement('div');
+  if (message === "TypeError: Failed to fetch") {
+    errorDiv.textContent = "Whoops! Looks like you forgot to start your json-server!"
+  } else {
+    
+  }
+  errorDiv.textContent = message;
+  errorDiv.className = 'error';
+  main.prepend(errorDiv);
+  window.addEventListener('keydown', (e) => {
+    if (e.key === "Escape") {
+      errorDiv.remove();
+    }
+  })
+}
+
 
 ////////////////////////////////////////////
 // call render functions to populate the DOM
 ////////////////////////////////////////////
 
-renderHeader(bookStore)
-renderFooter(bookStore)
-bookStore.inventory.forEach(renderBook)
 
+// bookStore.inventory.forEach(renderBook)
 
+fetch("http://localhost:3000/books")
+  .then((response) => response.json())
+  .then((books) => {
+    console.log(books)
+    books.forEach(renderBook)
+  })
+  .catch(renderError)
+  
 
+fetch("http://localhost:3000/stores/2")
+  .then((response) => response.json())
+  .then((bookStore) => {
+    renderHeader(bookStore)
+    renderFooter(bookStore)
+  })
+  
+// to add more robust error handling for future use with phases 3 and 4
+
+// fetch("http://localhost:3000/books")
+//   .then((response) => {
+//     if (response.ok) {
+//       return response.json()
+//     } else {
+//       throw response.statusText
+//     }
+//   })
+//   then((books) => {
+//     console.log(books)
+//     books.forEach(renderBook)
+//   })
+//   .catch(renderError)
