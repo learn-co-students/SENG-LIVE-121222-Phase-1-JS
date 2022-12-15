@@ -70,12 +70,11 @@ function renderBook(book) {
 // Event Handlers
 ///////////////////
 
-const toggleFormButton = document.querySelector('#toggleForm');
-const newBookForm = document.querySelector('#book-form');
-let bookFormVisible = false;
+const toggleBookFormBtn = document.querySelector('#toggleForm');
+const bookForm = document.querySelector('#book-form');
 
 // hide and show the new book form when toggle buton is clicked
-toggleFormButton.addEventListener('click', (e) => {
+toggleBookFormBtn.addEventListener('click', (e) => {
   const formHidden = bookForm.classList.toggle('collapsed')
   toggleBookFormBtn.textContent = formHidden ?  "New Book" : "Hide Book Form";
 });
@@ -92,7 +91,7 @@ window.addEventListener('keydown', (e) => {
 })
 
 // handle submitting new book form
-newBookForm.addEventListener('submit', (e) => {
+bookForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
   // invoke renderBook to add the book data from the form into the DOM
