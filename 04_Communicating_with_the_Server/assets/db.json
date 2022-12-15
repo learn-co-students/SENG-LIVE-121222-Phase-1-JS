@@ -1,6 +1,19 @@
 {
   "posts": [
-    { "title": "JSON-server is really cool" },
-    { "title": "JSON-server allows you to mock an API server by creating a single file!"}
-  ]
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
 }
