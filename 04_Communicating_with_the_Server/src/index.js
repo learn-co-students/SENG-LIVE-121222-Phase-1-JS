@@ -1,3 +1,7 @@
+function formatPrice(price) {
+  return '$' + Number.parseFloat(price).toFixed(2);
+}
+
 ///////////////////
 // render functions
 ///////////////////
@@ -61,11 +65,6 @@ function renderBook(book) {
   document.querySelector('#book-list').append(li);
 }
 
-function formatPrice(price) {
-  let formattedPrice = Number(price).toFixed(2);
-  return `$${formattedPrice}`;
-}
-
 
 ///////////////////
 // Event Handlers
@@ -77,25 +76,18 @@ let bookFormVisible = false;
 
 // hide and show the new book form when toggle buton is clicked
 toggleFormButton.addEventListener('click', (e) => {
-  bookFormVisible = !bookFormVisible;
-  newBookForm.classList.toggle('collapsed');
-  toggleFormButton.textContent = bookFormVisible ? 'Hide Book Form' : 'New Book';
-  // equivalent to the below
-  // if (bookFormVisible) {
-  //   toggleFormButton.textContent = 'Hide Book Form';
-  // } else {
-  //   toggleFormButton.textContent = 'New Book';
-  // }
+  const formHidden = bookForm.classList.toggle('collapsed')
+  toggleBookFormBtn.textContent = formHidden ?  "New Book" : "Hide Book Form";
 });
 
 // also hide the form when it's visible and the escape key is pressed
 
 window.addEventListener('keydown', (e) => {
-  console.log(e)
-  if (e.key === "Escape" && bookFormVisible) {
-    bookFormVisible = !bookFormVisible;
-    newBookForm.classList.toggle('collapsed');
-    toggleFormButton.textContent = bookFormVisible ? 'Hide Book Form' : 'New Book';
+  if (e.key === 'Escape') {
+    if (!bookForm.classList.contains('collapsed')) {
+      bookForm.classList.add('collapsed')
+      toggleBookFormBtn.textContent = "New Book";
+    };
   }
 })
 
@@ -115,16 +107,16 @@ newBookForm.addEventListener('submit', (e) => {
   //   inventory: 10,
   //   imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/51IKycqTPUL._SX218_BO1,204,203,200_QL40_FMwebp_.jpg',
   // }
-  console.dir(e.target)
   const book = {
     title: e.target.title.value,
     author: e.target.author.value,
-    price: Number.parseFloat(e.target.price.value),
+    price: parseFloat(e.target.price.value),
     reviews: [],
-    inventory: Number.parseInt(e.target.inventory.value),
+    inventory: parseInt(e.target.inventory.value),
     imageUrl: e.target.imageUrl.value
   }
   renderBook(book);
+  e.target.reset();
 });
 
 
@@ -135,6 +127,6 @@ newBookForm.addEventListener('submit', (e) => {
 renderHeader(bookStore)
 renderFooter(bookStore)
 bookStore.inventory.forEach(renderBook)
-document.querySelector('#book-form').addEventListener('submit', handleForm)
+
 
 
