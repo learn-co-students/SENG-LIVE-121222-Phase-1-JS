@@ -12,12 +12,6 @@ body {
   overflow: hidden;
 }
 
-.error {
-  background-color: lightcoral;
-  text-align: center;
-  padding: 20px;
-}
-
 header {
   background-image: url("assets/books.png");
   height: 10%;
