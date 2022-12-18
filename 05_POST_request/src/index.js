@@ -169,14 +169,102 @@ bookForm.addEventListener('submit', (e) => {
     imageUrl: e.target.imageUrl.value
   }
   // pass the info as an argument to renderBook for display!
-  renderBook(book);
+  
   // 1. Add the ability to perist the book to the database when the form is submitted. When this works, we should still see the book that is added to the DOM on submission when we refresh the page.
 
+
+  // optimistic rendering
+  // because the fetch request doesn't have a then attached
+  // the renderBook function is called before the `fetch` promise resolves
+  // this means that the DOM updates whether or not the server updates
+  // we're being optimistic that the server will update
+  // and so we don't wait for the server to update
+  // before updating the DOM
+  // fetch("http://localhost:3000/books", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json"
+  //   },
+  //   body: JSON.stringify(book)
+  // })
+
+  // renderBook(book); // updates the DOM whether the fetch works or not
+
+  // pessimistic version
+  
+  fetch("http://localhost:3000/books", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(book)
+  })
+    .then(response => response.json())
+    .then(renderBook); // only updates the DOM after the server has responded
+
   e.target.reset();
+  bookForm.classList.add('collapsed');
+  toggleBookFormBtn.textContent = 'New Book';
 })
 
 // 2. Hook up the new Store form so it that it works to add a new store to our database and also to the DOM (as an option within the select tag)
 
+storeForm.name.value = "BooksRUs"
+storeForm.location.value = "LaLaLand"
+storeForm.number.value = "555-555-5555"
+storeForm.address.value = "555 Shangri-La"
+storeForm.hours.value = "Monday - Friday 9am - 6pm"
+
+storeForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  console.log('handler is working')
+
+  // pessimistic version
+  // fetch("http://localhost:3000/stores", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json"
+  //   },
+  //   body: JSON.stringify({
+  //     "location": e.target.location.value,
+  //     "address": e.target.address.value,
+  //     "number": e.target.number.value,
+  //     "name": e.target.name.value,
+  //     "hours": e.target.hours.value
+  //   })
+  // })
+  //   .then(response => response.json())
+  //   .then(store => {
+  //     addSelectOptionForStore(store);
+  //   })
+  
+  // optimistic version
+  const store = {
+    "location": e.target.location.value,
+    "address": e.target.address.value,
+    "number": e.target.number.value,
+    "name": e.target.name.value,
+    "hours": e.target.hours.value
+  }
+  // fetch("http://localhost:3000/stores", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json"
+  //   },
+  //   body: JSON.stringify(store)
+  // })
+  //   .then(response => response.json())
+  //   .then(store => {
+  //     storeSelector.children[storeSelector.children.length - 1].value = store.id;
+  //   })
+    
+  // addSelectOptionForStore(store);
+
+  postJSON("http://localhost:3000/stores", store)
+    .then(store => {
+      addSelectOptionForStore(store);
+    })
+})
 
 // Invoking functions    
 // fetching our data!
@@ -195,6 +283,6 @@ getJSON('http://localhost:3000/stores')
 // load all the books and render them
 getJSON("http://localhost:3000/books")
   .then((books) => {
-    books.forEach(book => renderBook(book))
+    books.forEach(renderBook)
   })
   .catch(renderError);
