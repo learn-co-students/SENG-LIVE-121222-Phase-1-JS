@@ -88,6 +88,11 @@ input {
   margin: 3px;
 }
 
+.inventory-input {
+  display: inline-block;
+  width: 40px;
+}
+
 input[type=submit] {
   border: none;
   background-color: #2e824d;

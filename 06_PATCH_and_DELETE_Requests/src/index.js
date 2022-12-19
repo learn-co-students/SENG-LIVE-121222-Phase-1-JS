@@ -62,6 +62,12 @@ function renderBook(book) {
   
   const pPrice = document.createElement('p');
   pPrice.textContent = formatPrice(book.price);
+
+  const inventoryInput = document.createElement('input');
+  inventoryInput.type = 'number';
+  inventoryInput.className = 'inventory-input';
+  inventoryInput.value = book.inventory;
+  inventoryInput.min = 0;
   
   const pStock = document.createElement('p');
   pStock.className = "grey";
@@ -84,7 +90,7 @@ function renderBook(book) {
     li.remove();
   })
 
-  li.append(h3,pAuthor,pPrice,pStock,img,btn);
+  li.append(h3, pAuthor, pPrice, inventoryInput, pStock, img, btn);
   document.querySelector('#book-list').append(li);
 }
 
@@ -252,9 +258,11 @@ editStoreBtn.addEventListener('click', (e) => {
     .then(populateStoreEditForm)
 })
 
+////////////////////////////////
+// Communicating with the Server
+////////////////////////////////
 
-// Invoking functions    
-// fetching our data!
+
 getJSON('http://localhost:3000/stores')
   .then((stores) => {
     // this populates a select tag with options so we can switch between stores on our web page
