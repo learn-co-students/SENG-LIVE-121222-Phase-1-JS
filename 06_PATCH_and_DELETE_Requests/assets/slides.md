@@ -74,18 +74,21 @@ function renderComment(comment) {
   const likeBtn = document.createElement('button');
   likeBtn.textContent = `${comment.likes} like${comment.likes === 1 ? '' : 's'}`
   li.append(likeBtn);
-  likeBtn.addEventListener('click', (e) => addLike(comment));
+  likeBtn.addEventListener('click', (e) => {
+    addLike(comment)
+  });
   commentList.append(li);
 }
 
 function addLike(comment) {
-  // const currentCommentCount = parseInt(document.querySelector('li[data-comment-id="1"] button').textContent.split(' ')[0])
+  const btn = document.querySelector(`#comments li[data-comment-id="${comment.id}"] button`);
+  const currentCommentCount = parseInt(btn.textContent.split(' ')[0])
   fetch(`http://localhost:3000/comments/${comment.id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({likes: comment.likes + 1})
+    body: JSON.stringify({likes: currentCommentCount + 1})
   })
     .then(res => res.json())
     .then(comment => {

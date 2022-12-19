@@ -52,6 +52,7 @@ function addSelectOptionForStore(store) {
 // appends the li to the ul#book-list in the DOM
 function renderBook(book) {
   const li = document.createElement('li');
+  li.dataset.bookId = book.id;
   li.className = 'list-li';
   
   const h3 = document.createElement('h3');
@@ -68,6 +69,36 @@ function renderBook(book) {
   inventoryInput.className = 'inventory-input';
   inventoryInput.value = book.inventory;
   inventoryInput.min = 0;
+
+  inventoryInput.addEventListener('change', (e) => {
+    console.log('new value', e.target.value);
+    // update the value of the book's inventory in the database:
+    fetch(`http://localhost:3000/books/${book.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      }, 
+      body: JSON.stringify({ inventory: parseInt(e.target.value) })
+    })
+      .then(res => {
+        console.log('got a response');
+        if (res.ok) {
+          return res.json();
+        } else{ 
+          renderError(res.statusCode);
+        }
+      })
+      .then(updatedBook => {
+        if (updatedBook.inventory === 0) {
+          pStock.textContent = "Out of stock";
+        } else if (updatedBook.inventory < 3) {
+          pStock.textContent = "Only a few left!";
+        } else {
+          pStock.textContent = "In stock"
+        }
+      })
+      .catch(renderError)
+  })
   
   const pStock = document.createElement('p');
   pStock.className = "grey";
@@ -85,9 +116,25 @@ function renderBook(book) {
 
   const btn = document.createElement('button');
   btn.textContent = 'Delete';
+  // alternatively we can store data in the DOM
+  // btn.dataset.bookId = book.id;
 
   btn.addEventListener('click', (e) => {
-    li.remove();
+    fetch(`http://localhost:3000/books/${book.id}`, {
+      method: "DELETE"
+    })
+      .then(res => {
+        if (res.ok) { // pessimistic because we wait to know that the book was successfully deleted
+          li.remove(); // before removing it from the DOM
+        }
+      })
+    
+    // optimistic version
+    // fetch(`http://localhost:3000/books/${book.id}`, {
+    //   method: "DELETE"
+    // })
+    
+    // li.remove(); // don't wait for server before removing book from the DOM
   })
 
   li.append(h3, pAuthor, pPrice, inventoryInput, pStock, img, btn);
@@ -114,6 +161,7 @@ function renderError(error) {
 // New Function to populate the store form with a store's data to update 
 function populateStoreEditForm(store) {
   const form = document.querySelector('#store-form');
+  form.dataset.storeId = store.id;
   form.name.value = store.name;
   form.location.value = store.location;
   form.address.value = store.address;
@@ -237,7 +285,23 @@ storeForm.addEventListener('submit', (e) => {
   //   },
   if (storeEditMode) {
     // ✅ write code for updating the store here
-    
+    fetch(`http://localhost:3000/stores/${e.target.dataset.storeId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(store)
+    })
+      .then(res => res.json())
+      .then(store => {
+        renderHeader(store);
+        renderFooter(store);
+        return getJSON('http://localhost:3000/stores') // update the selection options for all stores after we've updated this store
+      })
+       .then((stores) => {
+        // this populates a select tag with options so we can switch between stores on our web page
+        renderStoreSelectionOptions(stores);
+      })
     hideStoreForm()
   } else {
     postJSON("http://localhost:3000/stores", store)
@@ -261,7 +325,6 @@ editStoreBtn.addEventListener('click', (e) => {
 ////////////////////////////////
 // Communicating with the Server
 ////////////////////////////////
-
 
 getJSON('http://localhost:3000/stores')
   .then((stores) => {
